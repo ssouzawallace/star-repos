@@ -7,7 +7,20 @@
 		<key>Github Star Repos.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>13</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>BA3969D6224BE81A002DD646</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BA3969EA224BE81B002DD646</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

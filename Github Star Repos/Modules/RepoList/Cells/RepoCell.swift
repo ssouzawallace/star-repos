@@ -2,25 +2,25 @@ import UIKit
 import Cartography
 
 class RepoCell: UITableViewCell {
-    let repoNamelabel: UILabel = {
+    private let repoNamelabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
         view.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         return view
     }()
-    let ownerNameLabel: UILabel = {
+    private let ownerNameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
          view.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
         return view
     }()
-    let starsLabel: UILabel = {
+    private let starsLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 1
         view.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.caption1)
         return view
     }()
-    let ownerPictureImageView = UIImageView()
+    private let ownerPictureImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,5 +51,14 @@ class RepoCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension RepoCell {
+    func configure(with repo: Repo) {
+        repoNamelabel.text = repo.name
+        ownerNameLabel.text = repo.owner.login
+        ownerPictureImageView.sd_setImage(with: repo.owner.avatarUrl, completed: nil)
+        starsLabel.text = "★ " + repo.stargazersCount.description
     }
 }

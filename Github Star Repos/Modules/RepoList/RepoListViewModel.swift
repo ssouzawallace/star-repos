@@ -9,7 +9,9 @@ class RepoListViewModel {
         case error
     }
     
-    private let observableResult = BehaviorSubject<Result<RepoSearchResponse>?>(value: nil)
+    // MARK:- Observables
+    
+    let observableResult = BehaviorSubject<Result<RepoSearchResponse>?>(value: nil)
     
     var viewTitle: Observable<String> = Observable.just(.viewTitle)
     
@@ -42,58 +44,69 @@ class RepoListViewModel {
             }
             self.repos += response.items
             let items: [ListItem] = self.repos.map({ (repo) -> ListItem in
-                return .model(repo: repo) }) + (self.currentPage*self.perPage - self.totalCount < self.perPage ? [.loader] : [])
+                return .model(repo: repo) }) + (self.shouldFetchMorePages ? [.loader] : [])
             return [SectionModel(model: 0, items: items)]
         }
     }
     
+    // MARK:- Paging requests
+    
     private let perPage = 20
     private var currentPage = 1
-    private var totalCount = -1
+    private var totalCount: Int? = nil
     
-    func fetchNextPageIfNeeded(_ finished: (()->())? = nil) {
-        guard totalCount == -1 || currentPage*perPage - totalCount < perPage else {
-            return
+    private var shouldFetchMorePages: Bool {
+        guard let totalCount = totalCount else {
+            print("ERROR: Trying to check for more pages without total info.")
+            return false
         }
-        
+        return currentPage*perPage - totalCount < perPage
+    }
+    
+    private func fetchCurrentPage() {
         if let url = Endpoint.searchSwiftRepos(currentPage: currentPage, perPage: perPage).url {
-            currentPage += 1
             let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 if let error = error {
-                    print(error)
+                    self?.observableResult.onNext(.failure(error))
                 } else if let data = data {
-                    let response = try! JSONDecoder().decode(RepoSearchResponse.self, from: data)
-                    self?.observableResult.onNext(.success(response))
-                    self?.currentPage += 1
-                    self?.totalCount = response.totalCount
+                    do {
+                        let response = try JSONDecoder().decode(RepoSearchResponse.self, from: data)
+                        self?.currentPage += 1
+                        self?.totalCount = response.totalCount
+                        
+                        self?.observableResult.onNext(.success(response))
+                    } catch (let e) {
+                        self?.observableResult.onNext(.failure(e))
+                    }
                 }
-                DispatchQueue.main.async {
-                    finished?()
-                }
-                
             }
             task.resume()
         }
     }
     
-    func fetchData(_ finished: (()->())? = nil) {
+    private func fetchNextPageIfNeeded() {
+        guard shouldFetchMorePages else {
+            print("DEBUG: Reached end of list.")
+            return
+        }
+        fetchCurrentPage()
+    }
+    
+    func refresh() {
         currentPage = 1
-        totalCount = -1
-        fetchNextPageIfNeeded(finished)
+        totalCount = nil
+        fetchCurrentPage()
     }
     
     func userReachedEndOfTheList() {
         fetchNextPageIfNeeded()
     }
     
+    // MARK:- Initialization
+    
     init() {
-        fetchData()
+        fetchCurrentPage()
     }
-}
-
-enum ListItem {
-    case loader
-    case model(repo: Repo)
 }
 
 fileprivate extension String {

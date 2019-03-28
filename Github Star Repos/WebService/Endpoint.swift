@@ -1,10 +1,6 @@
 import Foundation
 
 struct Endpoint {
-    enum Error: Swift.Error {
-        case invalidURL
-    }
-    
     let path: String
     let queryItems: [URLQueryItem]
 }

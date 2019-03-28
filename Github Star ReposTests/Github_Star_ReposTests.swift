@@ -1,33 +1,125 @@
-//
-//  Github_Star_ReposTests.swift
-//  Github Star ReposTests
-//
-//  Created by Wallace Souza Silva on 27/03/19.
-//  Copyright © 2019 WallaCorp. All rights reserved.
-//
+import Quick
+import Nimble
+import RxNimble
+import RxSwift
+import RxDataSources
+import RxTest
+import OHHTTPStubs
 
-import XCTest
 @testable import Github_Star_Repos
 
-class Github_Star_ReposTests: XCTestCase {
+class Github_Star_ReposTests: QuickSpec {
+    
+    override func spec() {
+        describe("repo list view model") {
+            context("receiving succesful response") {
+                
+                let response: RepoSearchResponse = RepoSearchResponse(totalCount: 100,
+                                                                      items: [Repo(name: "teste", owner: RepoOwner(login: "teste", avatarUrl: URL(string: "https://www.google.com.br")!), stargazersCount: 100)])
+                
+                let scheduler = TestScheduler(initialClock: 0)
+                let disposeBag = DisposeBag()
+                var viewModel: RepoListViewModel!
+                
+                beforeEach {
+                    viewModel = RepoListViewModel()
+                    scheduler.createHotObservable([.next(10, Result.success(response))])
+                        .bind(to: viewModel.observableResult)
+                        .disposed(by: disposeBag)
+                }
+                afterEach {
+                    scheduler.advanceTo(0)
+                }
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+                it("view state sequence") {
+                    expect(viewModel.viewState).events(scheduler: scheduler, disposeBag: disposeBag)
+                        .to(equal([.next(0, .loading),
+                                   .next(10, .loaded)]))
+                }
+                it("error message sequence") {
+                    expect(viewModel.errorMessage).events(scheduler: scheduler, disposeBag: disposeBag)
+                        .to(equal([.next(0, nil),
+                                   .next(10, nil)]))
+                }
+            }
+            
+            context("receiving failed response") {
+                enum TestError: String, Error {
+                    case testError = "test error"
+                }
+                
+                let scheduler = TestScheduler(initialClock: 0)
+                let disposeBag = DisposeBag()
+                var viewModel: RepoListViewModel!
+                
+                beforeEach {
+                    viewModel = RepoListViewModel()
+                    scheduler.createHotObservable([.next(10, Result.failure(TestError.testError))])
+                        .bind(to: viewModel.observableResult)
+                        .disposed(by: disposeBag)
+                }
+                afterEach {
+                    scheduler.advanceTo(0)
+                }
+                
+                it("view state sequence") {
+                    expect(viewModel.viewState).events(scheduler: scheduler, disposeBag: disposeBag)
+                        .to(equal([.next(0, .loading),
+                                   .next(10, .error)]))
+                }
+                it("error message sequence") {
+                    expect(viewModel.errorMessage).events(scheduler: scheduler, disposeBag: disposeBag)
+                        .to(equal([.next(0, nil),
+                                   .next(10, TestError.testError.localizedDescription)]))
+                }
+            }
+            
+            context("networking") {
+                afterEach {
+                    OHHTTPStubs.removeAllStubs()
+                }
+                
+                it("receiving mocked response") {
+                    stub(condition: isHost("api.github.com")) { request in
+                        return OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("mock_response.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                    }
+                    
+                    let viewModel = RepoListViewModel()
+                    let decoder = JSONDecoder()
+                    let data = try! Data(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "mock_response", ofType: "json")!))
+                    let response = try! decoder.decode(RepoSearchResponse.self, from: data)
+                    
+                    sleep(3)
+                    
+                    guard case Result.success(let value) = try! viewModel.observableResult.value()! else {
+                        fail()
+                        return
+                    }
+                    expect(value).to(equal(response))
+                }
+                
+                it("bad network") {
+                    stub(condition: isHost("api.github.com")) { request in
+                        return OHHTTPStubsResponse(data: Data(), statusCode: 400, headers: nil)
+                            .responseTime(OHHTTPStubsDownloadSpeed3G)
+                    }
+                    
+                    let viewModel = RepoListViewModel()
+                    
+                    sleep(3)
+                    
+                    guard case Result.failure(let error) = try! viewModel.observableResult.value()! else {
+                        fail()
+                        return
+                    }
+                    
+                    expect(error).to(beAKindOf(DecodingError.self))
+                }
+            }
         }
     }
 

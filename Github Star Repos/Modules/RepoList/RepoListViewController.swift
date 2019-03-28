@@ -8,13 +8,23 @@ import SDWebImage
 
 class RepoListViewController: UIViewController {
     
+    // MARK: Rx
+    
     let viewModel = RepoListViewModel()
     let disposeBag = DisposeBag()
     
     let dataSource = RepoListViewController.dataSource()
     
+    // MARK: Subviews
+    
+    let refreshControl: UIRefreshControl = {
+        let view = UIRefreshControl()
+        return view
+    }()
+    
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
+        view.tableFooterView = UIView()
         return view
     }()
     
@@ -27,11 +37,12 @@ class RepoListViewController: UIViewController {
     
     let errorLabel: UILabel = {
         let view = UILabel()
-        view.textColor = .white
         view.numberOfLines = 0
         view.textAlignment = .center
         return view
     }()
+    
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,13 +66,13 @@ class RepoListViewController: UIViewController {
             table.edges == container.edges
             spinner.center == container.center
             error.center == container.center
-            error.leading >= container.leading+16
-            error.trailing >= container.trailing-16
+            error.leading >= container.leading + 16
+            error.trailing >= container.trailing - 16
         }
         
-        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        tableView.refreshControl = refreshControl
+        tableView.refreshControl = self.refreshControl
+        tableView.allowsSelection = false
     }
     
     func configureRx() {
@@ -71,7 +82,17 @@ class RepoListViewController: UIViewController {
         viewModel.errorMessage.bind(to: errorLabel.rx.text).disposed(by: disposeBag)
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         viewModel.observableRepos.bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.viewState.map({ $0 == .loading }).bind(to: refreshControl.rx.isRefreshing).disposed(by: disposeBag)
     }
+    
+    @objc func refresh(_ refreshControl: UIRefreshControl) {
+        viewModel.refresh()
+    }
+}
+
+// MARK:- TableView Datasource
+
+extension RepoListViewController {
     
     private static func dataSource() -> RxTableViewSectionedReloadDataSource<SectionModel<Int, ListItem>> {
         return RxTableViewSectionedReloadDataSource<SectionModel<Int, ListItem>>(
@@ -82,26 +103,24 @@ class RepoListViewController: UIViewController {
                     return cell
                 case .model(let repo):
                     let cell: RepoCell = table.dequeueReusableCell(forIndexPath: indexPath)
-                    cell.repoNamelabel.text = repo.name
-                    cell.ownerNameLabel.text = repo.owner.login
-                    cell.ownerPictureImageView.sd_setImage(with: repo.owner.avatarUrl, completed: nil)
-                    cell.starsLabel.text = "★ " + repo.stargazersCount.description
+                    cell.configure(with: repo)
                     return cell
                 }
         })
     }
-    
-    @objc func refresh(_ refreshControl: UIRefreshControl) {
-        viewModel.fetchData() {
-            refreshControl.endRefreshing()
-        }
-    }
 }
+
+// MARK:- TableView Delegate
 
 extension RepoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        switch dataSource[indexPath.section].items[indexPath.row] {
+        case .loader:
+            return 60
+        default:
+            return 160
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

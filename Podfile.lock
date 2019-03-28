@@ -1,35 +1,75 @@
 PODS:
   - Cartography (3.1.0)
   - Differentiator (3.1.0)
-  - RxAtomic (4.4.0)
-  - RxCocoa (4.4.0):
-    - RxSwift (~> 4.0)
+  - iOSSnapshotTestCase (6.0.2):
+    - iOSSnapshotTestCase/SwiftSupport (= 6.0.2)
+  - iOSSnapshotTestCase/Core (6.0.2)
+  - iOSSnapshotTestCase/SwiftSupport (6.0.2):
+    - iOSSnapshotTestCase/Core
+  - Nimble (7.3.4)
+  - OHHTTPStubs/Core (7.0.0)
+  - OHHTTPStubs/Default (7.0.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (7.0.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (7.0.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (7.0.0)
+  - OHHTTPStubs/Swift (7.0.0):
+    - OHHTTPStubs/Default
+  - Quick (2.0.0)
+  - RxAtomic (4.4.2)
+  - RxCocoa (4.4.2):
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - RxDataSources (3.1.0):
     - Differentiator (~> 3.0)
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - RxSwift (4.4.0):
-    - RxAtomic (~> 4.4)
-  - SDWebImage (4.4.3):
-    - SDWebImage/Core (= 4.4.3)
-  - SDWebImage/Core (4.4.3)
+  - RxNimble/Core (4.4.0):
+    - Nimble (~> 7.0)
+    - RxSwift (~> 4.2)
+  - RxNimble/RxTest (4.4.0):
+    - RxNimble/Core
+    - RxTest
+  - RxSwift (4.4.2):
+    - RxAtomic (>= 4.4.2, ~> 4.4)
+  - RxTest (4.4.2):
+    - RxAtomic (>= 4.4.2, ~> 4.4)
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - SDWebImage (4.4.6):
+    - SDWebImage/Core (= 4.4.6)
+  - SDWebImage/Core (4.4.6)
 
 DEPENDENCIES:
-  - Cartography (~> 3.0)
-  - RxCocoa (~> 4.0)
-  - RxDataSources (~> 3.0)
-  - RxSwift (~> 4.0)
-  - SDWebImage (~> 4.0)
+  - Cartography (~> 3.1.0)
+  - iOSSnapshotTestCase
+  - Nimble
+  - OHHTTPStubs/Swift
+  - Quick
+  - RxCocoa (~> 4.4.2)
+  - RxDataSources (~> 3.1.0)
+  - RxNimble/RxTest
+  - RxSwift (~> 4.4.2)
+  - SDWebImage (~> 4.4.6)
 
 SPEC CHECKSUMS:
   Cartography: 1988b7578871a56c036e7af17195cb2190edf18c
   Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
-  RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
-  RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
+  iOSSnapshotTestCase: 20083a7be9b8ef742610e16c79f15ad829441f29
+  Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
+  OHHTTPStubs: ef33a2c353110d306bb98f695435ec56ff5a26c3
+  Quick: ce1276c7c27ba2da3cb2fd0cde053c3648b3b22d
+  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
+  RxCocoa: 477990dc3b4c3ff55fb0ac77e1cc06244e0aaec8
   RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
-  RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
-  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
+  RxNimble: ba6caf0195c37fd50dd4b967624b66ff580d781a
+  RxSwift: 74c29b693c8e42b0f64400e8b06564575742d649
+  RxTest: 6433d5b6229f5de424fa534bc22b5e6c38b0b671
+  SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
 
-PODFILE CHECKSUM: 796caf219cd65ffe296b532e6ba68a9d893f4d2c
+PODFILE CHECKSUM: 80a0f040cb463d36b70f7be02d6cc0061512c6d3
 
 COCOAPODS: 1.4.0

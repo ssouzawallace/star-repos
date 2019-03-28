@@ -29,15 +29,6 @@ extension UITableView {
         }
         
         return cell
-    }
-    
-    
-    // TODO: register
-//    func register(_ cellClass: AnyClass) {
-//        guard let cellClass = cellClass as UITableViewCell else {
-//            fatalError("Could not convert \(cellClass) to UITableViewCell class")
-//        }
-////        register(cellClass, forCellReuseIdentifier: )
-//    }
+    }    
 }
 

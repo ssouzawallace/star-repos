@@ -21,6 +21,9 @@
 		BADFEF2B224BF4E500DB574A /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADFEF2A224BF4E500DB574A /* RepoCell.swift */; };
 		BADFEF2F224BF7BF00DB574A /* Deque+Register TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADFEF2E224BF7BF00DB574A /* Deque+Register TableViewCell.swift */; };
 		BADFEF31224C155D00DB574A /* LoaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADFEF30224C155D00DB574A /* LoaderCell.swift */; };
+		BADFEF33224C3EEE00DB574A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADFEF32224C3EEE00DB574A /* ListItem.swift */; };
+		BADFEF37224C760900DB574A /* mock_response.json in Resources */ = {isa = PBXBuildFile; fileRef = BADFEF36224C760900DB574A /* mock_response.json */; };
+		BADFEF38224C83E300DB574A /* mock_response.json in Resources */ = {isa = PBXBuildFile; fileRef = BADFEF36224C760900DB574A /* mock_response.json */; };
 		C7D74F65026F07EE39E76EB0 /* Pods_Github_Star_ReposTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC7AFF5BCBB79F9C7178B8B1 /* Pods_Github_Star_ReposTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +59,9 @@
 		BADFEF2A224BF4E500DB574A /* RepoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoCell.swift; sourceTree = "<group>"; };
 		BADFEF2E224BF7BF00DB574A /* Deque+Register TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Deque+Register TableViewCell.swift"; sourceTree = "<group>"; };
 		BADFEF30224C155D00DB574A /* LoaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderCell.swift; sourceTree = "<group>"; };
+		BADFEF32224C3EEE00DB574A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
+		BADFEF36224C760900DB574A /* mock_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_response.json; sourceTree = "<group>"; };
+		BADFEF39224C8C0200DB574A /* Github_Star_ReposSnapshotTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Github_Star_ReposSnapshotTest.swift; sourceTree = "<group>"; };
 		F1AF2383145742B66A226B29 /* Pods-Github Star ReposTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Github Star ReposTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Github Star ReposTests/Pods-Github Star ReposTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FC7AFF5BCBB79F9C7178B8B1 /* Pods_Github_Star_ReposTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Github_Star_ReposTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -114,15 +120,13 @@
 		BA3969D9224BE81A002DD646 /* Github Star Repos */ = {
 			isa = PBXGroup;
 			children = (
+				BADFEF35224C43AC00DB574A /* Application */,
 				BADFEF2C224BF7A700DB574A /* Extensions */,
-				BADFEF23224BEC9100DB574A /* Result */,
-				BADFEF1D224BEB9200DB574A /* Modules */,
-				BADFEF1A224BEA1F00DB574A /* WebService */,
 				BADFEF15224BE89800DB574A /* Model */,
-				BA3969DA224BE81A002DD646 /* AppDelegate.swift */,
-				BA3969E1224BE81B002DD646 /* Assets.xcassets */,
-				BA3969E3224BE81B002DD646 /* LaunchScreen.storyboard */,
-				BA3969E6224BE81B002DD646 /* Info.plist */,
+				BADFEF1D224BEB9200DB574A /* Modules */,
+				BADFEF34224C439C00DB574A /* Resources */,
+				BADFEF23224BEC9100DB574A /* Result */,
+				BADFEF1A224BEA1F00DB574A /* WebService */,
 			);
 			path = "Github Star Repos";
 			sourceTree = "<group>";
@@ -132,6 +136,8 @@
 			children = (
 				BA3969EF224BE81B002DD646 /* Github_Star_ReposTests.swift */,
 				BA3969F1224BE81B002DD646 /* Info.plist */,
+				BADFEF36224C760900DB574A /* mock_response.json */,
+				BADFEF39224C8C0200DB574A /* Github_Star_ReposSnapshotTest.swift */,
 			);
 			path = "Github Star ReposTests";
 			sourceTree = "<group>";
@@ -147,8 +153,8 @@
 		BADFEF1A224BEA1F00DB574A /* WebService */ = {
 			isa = PBXGroup;
 			children = (
-				BADFEF26224BED1B00DB574A /* Response */,
 				BADFEF1B224BEA2800DB574A /* Endpoint.swift */,
+				BADFEF26224BED1B00DB574A /* Response */,
 			);
 			path = WebService;
 			sourceTree = "<group>";
@@ -164,9 +170,10 @@
 		BADFEF1E224BEB9F00DB574A /* RepoList */ = {
 			isa = PBXGroup;
 			children = (
-				BADFEF29224BF4DC00DB574A /* Cells */,
+				BADFEF32224C3EEE00DB574A /* ListItem.swift */,
 				BADFEF1F224BEBB500DB574A /* RepoListViewController.swift */,
 				BADFEF21224BEBBD00DB574A /* RepoListViewModel.swift */,
+				BADFEF29224BF4DC00DB574A /* Cells */,
 			);
 			path = RepoList;
 			sourceTree = "<group>";
@@ -190,8 +197,8 @@
 		BADFEF29224BF4DC00DB574A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				BADFEF2A224BF4E500DB574A /* RepoCell.swift */,
 				BADFEF30224C155D00DB574A /* LoaderCell.swift */,
+				BADFEF2A224BF4E500DB574A /* RepoCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -210,6 +217,24 @@
 				BADFEF2E224BF7BF00DB574A /* Deque+Register TableViewCell.swift */,
 			);
 			path = TableView;
+			sourceTree = "<group>";
+		};
+		BADFEF34224C439C00DB574A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BA3969E1224BE81B002DD646 /* Assets.xcassets */,
+				BA3969E3224BE81B002DD646 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BADFEF35224C43AC00DB574A /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				BA3969E6224BE81B002DD646 /* Info.plist */,
+				BA3969DA224BE81A002DD646 /* AppDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 		FA0A39A095FC026ADF43CC1A /* Frameworks */ = {
@@ -310,6 +335,7 @@
 			files = (
 				BA3969E5224BE81B002DD646 /* LaunchScreen.storyboard in Resources */,
 				BA3969E2224BE81B002DD646 /* Assets.xcassets in Resources */,
+				BADFEF38224C83E300DB574A /* mock_response.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +343,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BADFEF37224C760900DB574A /* mock_response.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,9 +371,26 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Github Star ReposTests/Pods-Github Star ReposTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+				"${BUILT_PRODUCTS_DIR}/RxNimble/RxNimble.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
+				"${BUILT_PRODUCTS_DIR}/iOSSnapshotTestCase/FBSnapshotTestCase.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxNimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -445,6 +489,7 @@
 				BADFEF28224BED2700DB574A /* RepoSearchResponse.swift in Sources */,
 				BADFEF22224BEBBD00DB574A /* RepoListViewModel.swift in Sources */,
 				BADFEF20224BEBB500DB574A /* RepoListViewController.swift in Sources */,
+				BADFEF33224C3EEE00DB574A /* ListItem.swift in Sources */,
 				BADFEF25224BEC9900DB574A /* Result.swift in Sources */,
 				BADFEF1C224BEA2800DB574A /* Endpoint.swift in Sources */,
 				BA3969DB224BE81A002DD646 /* AppDelegate.swift in Sources */,
@@ -607,8 +652,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55XL2R5538;
-				INFOPLIST_FILE = "Github Star Repos/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				INFOPLIST_FILE = "$(SRCROOT)/Github Star Repos/Application/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.wallacorp.Github-Star-Repos";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -623,8 +671,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55XL2R5538;
-				INFOPLIST_FILE = "Github Star Repos/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				INFOPLIST_FILE = "$(SRCROOT)/Github Star Repos/Application/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.wallacorp.Github-Star-Repos";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -641,7 +692,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55XL2R5538;
 				INFOPLIST_FILE = "Github Star ReposTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.wallacorp.Github-Star-ReposTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -659,7 +714,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55XL2R5538;
 				INFOPLIST_FILE = "Github Star ReposTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.wallacorp.Github-Star-ReposTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

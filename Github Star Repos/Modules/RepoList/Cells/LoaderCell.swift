@@ -15,7 +15,7 @@ class LoaderCell: UITableViewCell {
         
         constrain(activityIndicator, self) { spinner, container in
             spinner.center == container.center
-        }
+        }        
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -9,3 +9,9 @@ struct RepoSearchResponse: Codable {
     let totalCount: Int
     let items: [Repo]
 }
+
+extension RepoSearchResponse: Equatable {
+    static func == (lhs: RepoSearchResponse, rhs: RepoSearchResponse) -> Bool {
+        return lhs.totalCount == rhs.totalCount && lhs.items == rhs.items
+    }
+}
