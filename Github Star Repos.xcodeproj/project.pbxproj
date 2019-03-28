@@ -134,10 +134,10 @@
 		BA3969EE224BE81B002DD646 /* Github Star ReposTests */ = {
 			isa = PBXGroup;
 			children = (
-				BA3969EF224BE81B002DD646 /* Github_Star_ReposTests.swift */,
-				BA3969F1224BE81B002DD646 /* Info.plist */,
 				BADFEF36224C760900DB574A /* mock_response.json */,
+				BA3969F1224BE81B002DD646 /* Info.plist */,
 				BADFEF39224C8C0200DB574A /* Github_Star_ReposSnapshotTest.swift */,
+				BA3969EF224BE81B002DD646 /* Github_Star_ReposTests.swift */,
 			);
 			path = "Github Star ReposTests";
 			sourceTree = "<group>";

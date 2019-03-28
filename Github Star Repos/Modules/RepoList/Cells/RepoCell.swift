@@ -5,19 +5,26 @@ class RepoCell: UITableViewCell {
     private let repoNamelabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-        view.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
+        view.font = UIFont.preferredFont(forTextStyle: .title1)
+        view.adjustsFontSizeToFitWidth = true
+        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        view.minimumScaleFactor = 0.2        
         return view
     }()
     private let ownerNameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-         view.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+         view.font = UIFont.preferredFont(forTextStyle: .body)
         return view
     }()
     private let starsLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 1
-        view.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.caption1)
+        view.textAlignment = .right
+        view.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        view.font = UIFont.preferredFont(forTextStyle: .caption1)
         return view
     }()
     private let ownerPictureImageView = UIImageView()
@@ -33,10 +40,11 @@ class RepoCell: UITableViewCell {
         constrain(repoNamelabel, ownerNameLabel, starsLabel, ownerPictureImageView, self) { repoName, ownerName, stars, ownerPicture, container in
             repoName.leading == container.leading + 16
             repoName.top == container.top + 16
-            repoName.trailing == stars.leading
+            repoName.trailing == stars.leading - 8
             stars.trailing == container.trailing - 16
             stars.centerY == repoName.centerY
             
+            ownerPicture.top == repoName.bottom + 8
             ownerPicture.width == 80
             ownerPicture.height == 80
             ownerPicture.leading == container.leading + 16
