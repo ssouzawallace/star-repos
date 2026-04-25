@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: |
+            Pods
+            ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods dependencies
+        run: pod install --repo-update
+
+      - name: Build
+        run: |
+          xcodebuild build \
+            -workspace "Github Star Repos.xcworkspace" \
+            -scheme "Github Star Repos" \
+            -destination "platform=iOS Simulator,name=iPhone 16" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Run Tests
+        run: |
+          xcodebuild test \
+            -workspace "Github Star Repos.xcworkspace" \
+            -scheme "Github Star Repos" \
+            -destination "platform=iOS Simulator,name=iPhone 16" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO | xcpretty && exit ${PIPESTATUS[0]}
