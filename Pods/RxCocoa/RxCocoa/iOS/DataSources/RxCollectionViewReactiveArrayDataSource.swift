@@ -43,10 +43,6 @@ class RxCollectionViewReactiveArrayDataSourceSequenceWrapper<S: Sequence>
     , RxCollectionViewDataSourceType {
     typealias Element = S
 
-    init(cellFactory: @escaping CellFactory) {
-        super.init(cellFactory: cellFactory)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, observedEvent: Event<S>) {
         Binder(self) { collectionViewDataSource, sectionModels in
             let sections = Array(sectionModels)
