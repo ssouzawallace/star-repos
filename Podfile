@@ -31,4 +31,19 @@ post_install do |installer|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
   end
+
+  # Fix RxCocoa 4.4.2 compatibility with newer Swift/Xcode versions.
+  # Newer compilers reject `override init` when the parent's designated
+  # initializer is not visible as overridable in the generic subclass context.
+  podfile_dir = File.dirname(__FILE__)
+  [
+    "#{podfile_dir}/Pods/RxCocoa/RxCocoa/iOS/DataSources/RxCollectionViewReactiveArrayDataSource.swift",
+    "#{podfile_dir}/Pods/RxCocoa/RxCocoa/iOS/DataSources/RxTableViewReactiveArrayDataSource.swift"
+  ].each do |file|
+    next unless File.exist?(file)
+    content = File.read(file)
+    patched = content.gsub('    override init(cellFactory: @escaping CellFactory) {',
+                           '    init(cellFactory: @escaping CellFactory) {')
+    File.write(file, patched) if patched != content
+  end
 end
