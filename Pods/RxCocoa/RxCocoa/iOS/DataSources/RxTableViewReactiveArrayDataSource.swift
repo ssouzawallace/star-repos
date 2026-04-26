@@ -43,7 +43,7 @@ class RxTableViewReactiveArrayDataSourceSequenceWrapper<S: Sequence>
     , RxTableViewDataSourceType {
     typealias Element = S
 
-    override init(cellFactory: @escaping CellFactory) {
+    init(cellFactory: @escaping CellFactory) {
         super.init(cellFactory: cellFactory)
     }
 
