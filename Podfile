@@ -33,8 +33,10 @@ post_install do |installer|
   end
 
   # Fix RxCocoa 4.4.2 compatibility with newer Swift/Xcode versions.
-  # Newer compilers reject `override init` when the parent's designated
-  # initializer is not visible as overridable in the generic subclass context.
+  # Newer compilers produce "multiple definitions of symbol" when a generic
+  # SequenceWrapper subclass re-declares the same init as its parent.
+  # Removing the redundant init from the Wrapper classes lets Swift use the
+  # inherited designated initializer instead.
   podfile_dir = File.dirname(__FILE__)
   [
     "#{podfile_dir}/Pods/RxCocoa/RxCocoa/iOS/DataSources/RxCollectionViewReactiveArrayDataSource.swift",
@@ -42,8 +44,7 @@ post_install do |installer|
   ].each do |file|
     next unless File.exist?(file)
     content = File.read(file)
-    patched = content.gsub('    override init(cellFactory: @escaping CellFactory) {',
-                           '    init(cellFactory: @escaping CellFactory) {')
+    patched = content.gsub(/\n\s+(?:override )?init\(cellFactory: @escaping CellFactory\) \{\n\s+super\.init\(cellFactory: cellFactory\)\n\s+\}\n/, "\n")
     File.write(file, patched) if patched != content
   end
 end
